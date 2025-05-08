@@ -1,20 +1,40 @@
 import { useState } from 'react'
-import './App.css'
+import ProductForm from './components/ProductForm'
+import ProductList from './components/ProductList'
 
-function App() {
-  const [count, setCount] = useState(0)
+export default function App() {
+  const [activeTab, setActiveTab] = useState('submit')
 
   return (
-    <>
-      <div className="grid min-h-screen place-items-center">
-      <div className="bg-green-500 p-8 rounded-xl">
-        <h1 className="text-white text-3xl font-black ">
-          Tailwind v4 is working!
-        </h1>
+    <main className="container mx-auto p-4 max-w-6xl">
+      <div className="flex border-b">
+        <button
+          className={`p-4 font-medium ${
+            activeTab === 'submit' 
+              ? 'border-b-2 border-blue-500 text-blue-600' 
+              : 'text-gray-500'
+          }`}
+          onClick={() => setActiveTab('submit')}
+        >
+          Product Submission
+        </button>
+        <button
+          className={`p-4 font-medium ${
+            activeTab === 'products' 
+              ? 'border-b-2 border-blue-500 text-blue-600' 
+              : 'text-gray-500'
+          }`}
+          onClick={() => setActiveTab('products')}
+        >
+          My Products
+        </button>
       </div>
-    </div>
-    </>
-  )
-}
 
-export default App
+      {activeTab === 'submit' ? (
+        <ProductForm onSuccess={() => setActiveTab('products')} />
+      ) : (
+        <ProductList />
+      )}
+    </main>
+  );
+}
